@@ -1,16 +1,16 @@
-# Syntaxe des commandes `awk`
+# `awk` Command Syntax
 
 ```
 awk '{action}' file
 ```
 
-## Exemple : afficher tout le fichier
+## Example: print the whole file
 
 ```bash
 awk '{print $0}' report.txt
 ```
 
-Résultat :
+Result:
 ```
 Number|Name|Date
 001|Q1_Financial_Report.pdf|2026-08-10
@@ -35,17 +35,17 @@ Number|Name|Date
 020|App_Source_Code.zip|2026-09-30
 ```
 
-`$0` représente la ligne entière, donc cette commande affiche tout le résultat du fichier.
+`$0` represents the entire line, so this command prints the full content of the file.
 
-## Sélectionner une colonne précise
+## Selecting a specific column
 
-Pour extraire une colonne, on utilise le flag `-F` afin de préciser le séparateur du fichier. Ici, `report.txt` est séparé par `|`.
+To extract a column, we use the `-F` flag to specify the file's field separator. Here, `report.txt` is separated by `|`.
 
 ```bash
 awk -F "|" '{print $1, $3}' report.txt
 ```
 
-Résultat :
+Result:
 ```
 Number Date
 001 2026-08-10
@@ -70,15 +70,15 @@ Number Date
 020 2026-09-30
 ```
 
-⚠️ Il faut bien mettre une **virgule** entre `$1` et `$3` (`print $1, $3`). Sans virgule, les champs sont collés sans espace : `0012026-08-10`.
+⚠️ Make sure to put a **comma** between `$1` and `$3` (`print $1, $3`). Without the comma, fields get glued together with no space: `0012026-08-10`.
 
-Le séparateur peut être n'importe quel caractère : espace, `/`, `\t`, etc.
+The separator can be any character: space, `/`, `\t`, etc.
 
 ```bash
 awk -F "|" '{print $1, "\t", $3}' report.txt
 ```
 
-Résultat :
+Result:
 ```
 Number   Date
 001      2026-08-10
@@ -103,15 +103,15 @@ Number   Date
 020      2026-09-30
 ```
 
-## Afficher la dernière colonne avec `$NF`
+## Printing the last column with `$NF`
 
-`NF` (Number of Fields) contient le nombre total de colonnes de la ligne. `$NF` fait donc toujours référence à la **dernière colonne**, quel que soit le nombre de champs.
+`NF` (Number of Fields) holds the total number of columns in the line. `$NF` therefore always refers to the **last column**, no matter how many fields the line has.
 
 ```bash
 awk -F "|" '{print $NF}' report.txt
 ```
 
-Résultat :
+Result:
 ```
 Date
 2026-08-10
@@ -136,4 +136,4 @@ Date
 2026-09-30
 ```
 
-Utile quand on ne connaît pas à l'avance le nombre exact de colonnes du fichier.
+Useful when you don't know in advance the exact number of columns in the file.
