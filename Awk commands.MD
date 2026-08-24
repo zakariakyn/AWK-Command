@@ -192,7 +192,7 @@ awk -F "|" '/\.pdf/ {print $0}' report.txt
 ```
 
 ```
-zakaria@DESKTOP-4TTU70F:~$ awk -F "|" '/\.pdf/ {print $0}' report.txt
+:~$ awk -F "|" '/\.pdf/ {print $0}' report.txt
 001|Q1_Financial_Report.pdf|2026-08-10
 006|Employee_Handbook_Updated.pdf|2026-08-24
 013|Invoice_10492_AcmeCorp.pdf|2026-09-10
@@ -211,7 +211,7 @@ awk -F "|" '$2 ~ /^Q/ {print $2}' report.txt
 ```
 
 ```
-zakaria@DESKTOP-4TTU70F:~$ awk -F "|" '$2 ~ /^Q/ {print $2}' report.txt
+:~$ awk -F "|" '$2 ~ /^Q/ {print $2}' report.txt
 Q1_Financial_Report.pdf
 Q2_Marketing_Plan.pptx
 Q3_Inventory_Count.csv
@@ -224,7 +224,7 @@ awk -F "|" '$2 ~ /sv$/ {print $2}' report.txt
 ```
 
 ```
-zakaria@DESKTOP-4TTU70F:~$ awk -F "|" '$2 ~ /sv$/ {print $2}' report.txt
+:~$ awk -F "|" '$2 ~ /sv$/ {print $2}' report.txt
 Client_List_V2.csv
 Social_Media_Schedule.csv
 Q3_Inventory_Count.csv
