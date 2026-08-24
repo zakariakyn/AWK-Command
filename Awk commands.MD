@@ -147,7 +147,7 @@ awk 'END {print NF}' report.txt
 ```
 
 ```
-zakaria@DESKTOP-4TTU70F:~$ awk 'END {print NF}' report.txt
+:~$ awk 'END {print NF}' report.txt
 1
 ```
 
@@ -160,7 +160,7 @@ awk -F "|" 'END {print NF}' report.txt
 ```
 
 ```
-zakaria@DESKTOP-4TTU70F:~$ awk -F "|" 'END {print NF}' report.txt
+:~$ awk -F "|" 'END {print NF}' report.txt
 3
 ```
 
@@ -173,59 +173,8 @@ awk 'END {print NR - 1}' report.txt
 ```
 
 ```
-zakaria@DESKTOP-4TTU70F:~$ awk 'END {print NR - 1}' report.txt
+:~$ awk 'END {print NR - 1}' report.txt
 20
 ```
 
 We subtract 1 because line 1 is the header (`Number|Name|Date`), not a data row.
-
-## Now, how to search for a word or character
-
-```bash
-awk '/what you are looking for/ {action}'
-```
-
-If I want to search for `.pdf`, this is the command:
-
-```bash
-awk -F "|" '/\.pdf/ {print $0}' report.txt
-```
-
-```
-:~$ awk -F "|" '/\.pdf/ {print $0}' report.txt
-001|Q1_Financial_Report.pdf|2026-08-10
-006|Employee_Handbook_Updated.pdf|2026-08-24
-013|Invoice_10492_AcmeCorp.pdf|2026-09-10
-017|Brand_Guidelines_2026.pdf|2026-09-20
-```
-
-Note: I escaped the dot as `\.` because in regex a plain `.` matches *any* character, not just a literal dot — `/.pdf/` would also match something like `Xpdf`.
-
-For searching at the **beginning** of a string we use `/^what you are looking for/`,
-and for the **end** we use `/what you are looking for$/`.
-
-If I want what starts with the character "Q" in the second column:
-
-```bash
-awk -F "|" '$2 ~ /^Q/ {print $2}' report.txt
-```
-
-```
-:~$ awk -F "|" '$2 ~ /^Q/ {print $2}' report.txt
-Q1_Financial_Report.pdf
-Q2_Marketing_Plan.pptx
-Q3_Inventory_Count.csv
-```
-
-If I want to search for "sv" at the end:
-
-```bash
-awk -F "|" '$2 ~ /sv$/ {print $2}' report.txt
-```
-
-```
-:~$ awk -F "|" '$2 ~ /sv$/ {print $2}' report.txt
-Client_List_V2.csv
-Social_Media_Schedule.csv
-Q3_Inventory_Count.csv
-```
