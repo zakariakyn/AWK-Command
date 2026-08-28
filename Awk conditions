@@ -1,0 +1,101 @@
+# Conditions in awk
+## Definition
+In AWK, conditions let you test a value on each line and control what gets printed. This can be done with an `if/else` statement, a short pattern-action rule, the ternary operator, or logical operators (`&&`, `||`) to combine several conditions.
+## Syntax
+```awk
+if (condition) action; else action
+condition { action }
+condition ? value_if_true : value_if_false
+```
+- **condition** = the test being evaluated (e.g. `$1 == 13`, `$2 ~ /\.docx$/`)
+- **action** = what awk does when the condition is true (usually `print`)
+
+## Example 1 — IF ELSE statement
+```bash
+awk -F "|" '{if($1 == 1 ) print $0 ; else print "none"}' report.txt
+```
+This runs on **every line** of the file, printing the line if `$1 == 1`, otherwise printing `"none"`.
+**Output:**
+```
+none
+001|Q1_Financial_Report.pdf|2026-08-10
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+none
+```
+
+## Example 2 — Return only the match
+```bash
+awk -F "|" '{if ($1 == 13) print $1 "\t" $2 "\t" $3}' report.txt
+```
+No `else` branch here — only prints when the condition is true.
+**Output:**
+```
+013     Invoice_10492_AcmeCorp.pdf      2026-09-10
+```
+
+## Example 3 — Pattern-action rule
+```bash
+awk -F "|" '$3 == "2026-09-12" { print $0}' report.txt
+```
+Condition sits outside `{}`, no `if` needed — same effect as filtering, shorter to write.
+**Output:**
+```
+014|Product_Roadmap_2027.pptx|2026-09-12
+```
+
+## Example 4 — Ternary operator
+```bash
+awk -F "|" '{ print ( $1 ~ /^00/) ? $0 : "error"}' report.txt
+```
+One-line version of if/else: `condition ? value_if_true : value_if_false`.
+**Output:**
+```
+error
+001|Q1_Financial_Report.pdf|2026-08-10
+002|Project_Alpha_Brief.docx|2026-08-15
+003|Client_List_V2.csv|2026-08-18
+004|Design_Assets_Final.zip|2026-08-21
+005|Q2_Marketing_Plan.pptx|2026-08-22
+006|Employee_Handbook_Updated.pdf|2026-08-24
+007|Server_Logs_Aug.txt|2026-08-25
+008|User_Feedback_Survey.xlsx|2026-08-28
+009|Website_Mockups_V3.fig|2026-08-29
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+```
+
+## Example 5 — Logical operators AND / OR
+```bash
+awk -F "|" '{if ($1==10 && $2 ~ /\.docx$/) print  $0}' report.txt
+```
+Both conditions must be true (`&&`).
+**Output:**
+```
+010|Meeting_Minutes_Q3.docx|2026-09-02
+```
