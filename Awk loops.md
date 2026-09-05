@@ -94,3 +94,36 @@ Somme ligne 3 : 35
 | 5 | 30 | yes | 45 |
 
 Result: `45` — matches the output above.
+
+## loop `do while`
+
+### Definition
+
+A `do while` loop runs the action **at least once**, then keeps repeating as long as the condition stays true. The difference from `while` is the order: the body executes first, the condition is checked after.
+
+### Example — Find the position of value "35" on each line
+
+**Command:**
+```bash
+awk '{ if (NF > 0) { f = 1; do { if ($f == "35") { print NR, f } f++ } while (f <= NF) } }' listnumber.txt
+```
+
+**Output:**
+```
+2 4
+```
+
+### How it works
+
+| Part | Role |
+|---|---|
+| `if (NF > 0)` | Safety check — a `do while` always runs at least once, even if there were 0 columns, so this guard avoids that edge case |
+| `f = 1` | Start the counter at the first column |
+| `do { ... } while (f <= NF)` | Execute the block first, then keep looping while `f` hasn't passed the last column |
+| `if ($f == "35")` | Check if the value in column `f` equals `"35"` |
+| `print NR, f` | Print the line number and column position when found |
+| `f++` | Manually increment the counter |
+
+### Trace
+
+Only line 2 (`20 25 30 35 50`) has `35`, at column 4 → prints `2 4`. Lines 1 and 3 don't contain `35`, so nothing is printed for them.
